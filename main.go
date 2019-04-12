@@ -22,7 +22,7 @@ func main() {
 		Limit:       10, // Limit per page.
 		NewPage:     1,  // Page that you captured in params.
 		CurrentPage: 1,  // Inicial Page.
-		TotalPages:  60, // Total of pages, this usually comes from SQL query total rows result.
+		TotalPages:  60, // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
 	pg := tome.Paginate(chapter) // Paginating the results.
