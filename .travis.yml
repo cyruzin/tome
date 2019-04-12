@@ -1,0 +1,12 @@
+go:
+  - 1.12.x
+
+git:
+  depth: 1
+
+script:
+  - go get -v -t -d ./... 
+  - go test -v -bench ./...
+
+notifications:
+  email: false
