@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	// Creating a tome chapter.
 	chapter := &tome.Chapter{
 		Data: struct {
 			Nome  string `json:"nome"`
@@ -16,19 +17,19 @@ func main() {
 		}{
 			"Cyro",
 			"xorycx@gmail.com",
-		},
-		Offset:      0,
-		Limit:       10,
-		NewPage:     1,
-		CurrentPage: 1,
-		TotalPages:  60,
+		}, // Data that you want to return along with pagination settings.
+		Offset:      0,  // Inicial offset.
+		Limit:       10, // Limit per page.
+		NewPage:     1,  // Page that you captured in params.
+		CurrentPage: 1,  // Inicial Page.
+		TotalPages:  60, // Total of pages, this usually comes from SQL total rows result query.
 	}
 
-	pg := tome.Paginate(chapter)
+	pg := tome.Paginate(chapter) // Paginating the results.
 
 	data, err := json.MarshalIndent(pg, "", " ")
 	if err != nil {
 		log.Println(err)
 	}
-	fmt.Println(string(data))
+	fmt.Println(string(data)) // Returning JSON.
 }
