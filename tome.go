@@ -12,7 +12,7 @@ type Chapter struct {
 	// The inicial offset position.
 	Offset int `json:"-"`
 	// Limit per page.
-	Limit int `json:"-"`
+	Limit int `json:"per_page"`
 	// The page number captured on the request params.
 	NewPage int `json:"-"`
 	// Current page of the tome.
@@ -20,7 +20,7 @@ type Chapter struct {
 	// The last page of the tome.
 	LastPage int `json:"last_page"`
 	// Total of pages, this usually comes from a SQL query total rows result.
-	TotalPages int `json:"total_pages"`
+	TotalPages int `json:"total"`
 }
 
 // Paginate handles the pagination calculation.
