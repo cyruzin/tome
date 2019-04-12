@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	tome "github.com/cyruzin/tome/pkg"
+	"github.com/cyruzin/tome"
 )
 
 func main() {

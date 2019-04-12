@@ -1,25 +1,33 @@
 // Copyright (c) 2019 Cyro Dubeux. License MIT.
 
+// Package tome was designed to paginate simple RESTful APIs.
 package tome
 
 import "math"
 
 // Chapter type is a struct for pagination results.
 type Chapter struct {
-	Data        interface{} `json:"data"`
-	Offset      int         `json:"-"`
-	Limit       int         `json:"-"`
-	NewPage     int         `json:"-"`
-	CurrentPage int         `json:"current_page"`
-	LastPage    int         `json:"last_page"`
-	TotalPages  int         `json:"total_pages"`
+	// Data that you want to return along with pagination settings.
+	Data interface{} `json:"data"`
+	// The inicial offset position.
+	Offset int `json:"-"`
+	// Limit per page.
+	Limit int `json:"-"`
+	// The page number captured on the request params.
+	NewPage int `json:"-"`
+	// Current page of the tome.
+	CurrentPage int `json:"current_page"`
+	// The last page of the tome.
+	LastPage int `json:"last_page"`
+	// Total of pages, this usually comes from a SQL query total rows result.
+	TotalPages int `json:"total_pages"`
 }
 
 // Paginate handles the pagination calculation.
 func Paginate(c *Chapter) *Chapter {
-	setDefaults(c)
-	ceilLastPage(c)
-	offset, limit := doPaginate(c)
+	setDefaults(c)                 // Checking if need defaults
+	ceilLastPage(c)                // Ceiling the last page.
+	offset, limit := doPaginate(c) // Pagination calculation.
 
 	return &Chapter{
 		c.Data,
