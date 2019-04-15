@@ -7,11 +7,11 @@ import (
 func TestPaginate(t *testing.T) {
 	chapter := &Chapter{
 		Data: struct {
-			Nome  string `json:"nome"`
-			Email string `json:"email"`
+			Title string `json:"title"`
+			Body  string `json:"body"`
 		}{
-			"Cyro",
-			"xorycx@gmail.com",
+			"What is Lorem Ipsum?",
+			"Lorem Ipsum is simply dummy text of the printing and...",
 		}, // Data that you want to return along with pagination settings.
 		BaseURL:     "http://yourapi.com/v1/posts", // End-point base URL.
 		Limit:       10,                            // Limit per page.
@@ -31,27 +31,24 @@ func TestPaginate(t *testing.T) {
 }
 
 func BenchmarkPaginate(b *testing.B) {
-	chapter := &Chapter{
-		Data: struct {
-			Nome  string `json:"nome"`
-			Email string `json:"email"`
-		}{
-			"Cyro",
-			"xorycx@gmail.com",
-		}, // Data that you want to return along with pagination settings.
-		BaseURL:     "http://yourapi.com/v1/posts", // End-point base URL.
-		Limit:       10,                            // Limit per page.
-		NewPage:     10,                            // Page that you captured in params.
-		CurrentPage: 1,                             // Inicial Page.
-		TotalPages:  3000,                          // Total of pages, this usually comes from a SQL query total rows result.
+	for i := 0; i < b.N; i++ {
+		chapter := &Chapter{
+			Data: struct {
+				Title string `json:"title"`
+				Body  string `json:"body"`
+			}{
+				"What is Lorem Ipsum?",
+				"Lorem Ipsum is simply dummy text of the printing and...",
+			}, // Data that you want to return along with pagination settings.
+			BaseURL:     "http://yourapi.com/v1/posts", // End-point base URL.
+			Limit:       10,                            // Limit per page.
+			NewPage:     10,                            // Page that you captured in params.
+			CurrentPage: 1,                             // Inicial Page.
+			TotalPages:  3000,                          // Total of pages, this usually comes from a SQL query total rows result.
+		}
+		_, err := chapter.Paginate()
+		if err != nil {
+			b.Error(err)
+		}
 	}
-
-	result, err := chapter.Paginate()
-	if err != nil {
-		b.Error(err)
-	}
-
-	b.Log(result.CurrentPage)
-	b.ReportAllocs()
-
 }

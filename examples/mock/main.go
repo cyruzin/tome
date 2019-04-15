@@ -12,16 +12,16 @@ func main() {
 	// Creating a tome chapter.
 	chapter := &tome.Chapter{
 		Data: struct {
-			Nome  string `json:"nome"`
-			Email string `json:"email"`
+			Title string `json:"title"`
+			Body  string `json:"body"`
 		}{
-			"Cyro",
-			"xorycx@gmail.com",
+			"What is Lorem Ipsum?",
+			"Lorem Ipsum is simply dummy text of the printing and...",
 		}, // Data that you want to return along with pagination settings.
-		BaseURL:     "https://feelthemovies.com.br/v1/recommendations",
+		BaseURL:     "http://yourapi.com/v1/posts",
 		Offset:      0,    // Inicial offset.
 		Limit:       10,   // Limit per page.
-		NewPage:     200,  // Page that you captured in params.
+		NewPage:     2,    // Page that you captured in params.
 		CurrentPage: 1,    // Inicial Page.
 		TotalPages:  3000, // Total of pages, this usually comes from a SQL query total rows result.
 	}

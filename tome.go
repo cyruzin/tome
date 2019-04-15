@@ -13,12 +13,16 @@ import (
 type Chapter struct {
 	// Data that you want to return along with pagination settings.
 	Data interface{} `json:"data"`
-	// API Base URL.
+	// API base URL.
 	BaseURL string `json:"base_url"`
-	// The Next URL link with page number.
+	// The first URL link with page number.
+	FirstURL string `json:"first_url"`
+	// The next URL link with page number.
 	NextURL string `json:"next_url"`
-	// The Previous URL link with page number.
+	// The previous URL link with page number.
 	PreviousURL string `json:"prev_url"`
+	// The last URL link with page number.
+	LastURL string `json:"last_url"`
 	// The inicial offset position.
 	Offset int `json:"-"`
 	// Limit per page.
@@ -47,8 +51,10 @@ func (c *Chapter) Paginate() (*Chapter, error) {
 	return &Chapter{
 		c.Data,
 		c.BaseURL,
+		c.FirstURL,
 		c.NextURL,
 		c.PreviousURL,
+		c.LastURL,
 		offset,
 		limit,
 		c.NewPage,
@@ -76,12 +82,14 @@ func (c *Chapter) ceilLastPage() {
 // Creates next and previous links using
 // the given base URL.
 func (c *Chapter) createLinks() {
-	if c.NewPage <= c.LastPage {
+	c.FirstURL = fmt.Sprintf("%s?page=%d", c.BaseURL, 1)
+	if c.NewPage < c.LastPage {
 		c.NextURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.CurrentPage+1)
 	}
-	if c.LastPage >= c.NewPage {
+	if c.LastPage > c.NewPage {
 		c.PreviousURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.CurrentPage-1)
 	}
+	c.LastURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.LastPage)
 }
 
 // Sets the defaults values for current page
@@ -90,7 +98,6 @@ func (c *Chapter) setDefaults() {
 	if cp := c.CurrentPage == 0; cp {
 		c.CurrentPage = 1
 	}
-
 	if l := c.Limit == 0; l {
 		c.Limit = 10
 	}
