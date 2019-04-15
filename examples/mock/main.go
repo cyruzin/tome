@@ -18,14 +18,18 @@ func main() {
 			"Cyro",
 			"xorycx@gmail.com",
 		}, // Data that you want to return along with pagination settings.
-		Offset:      0,  // Inicial offset.
-		Limit:       10, // Limit per page.
-		NewPage:     1,  // Page that you captured in params.
-		CurrentPage: 1,  // Inicial Page.
-		TotalPages:  60, // Total of pages, this usually comes from a SQL query total rows result.
+		BaseURL:     "https://feelthemovies.com.br/v1/recommendations",
+		Offset:      0,    // Inicial offset.
+		Limit:       10,   // Limit per page.
+		NewPage:     200,  // Page that you captured in params.
+		CurrentPage: 1,    // Inicial Page.
+		TotalPages:  3000, // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
-	pg := tome.Paginate(chapter) // Paginating the results.
+	pg, err := tome.Paginate(chapter) // Paginating the results.
+	if err != nil {
+		log.Println(err)
+	}
 
 	data, err := json.MarshalIndent(pg, "", " ")
 	if err != nil {
