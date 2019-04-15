@@ -34,15 +34,15 @@ type Chapter struct {
 }
 
 // Paginate handles the pagination calculation.
-func Paginate(c *Chapter) (*Chapter, error) {
+func (c *Chapter) Paginate() (*Chapter, error) {
 	if c.BaseURL == "" {
 		return nil, errors.New("Base URL is missing")
 	}
 
-	setDefaults(c)                 // Checking if need defaults
-	ceilLastPage(c)                // Ceiling the last page.
-	offset, limit := doPaginate(c) // Pagination calculation.
-	createLinks(c)                 // Creating links.
+	c.setDefaults()                 // Checking if need defaults
+	c.ceilLastPage()                // Ceiling the last page.
+	offset, limit := c.doPaginate() // Pagination calculation.
+	c.createLinks()                 // Creating links.
 
 	return &Chapter{
 		c.Data,
@@ -59,7 +59,7 @@ func Paginate(c *Chapter) (*Chapter, error) {
 }
 
 // Calculates the offset and the limit.
-func doPaginate(c *Chapter) (int, int) {
+func (c *Chapter) doPaginate() (int, int) {
 	if c.NewPage > c.CurrentPage {
 		c.CurrentPage = c.NewPage
 		c.Offset = (c.CurrentPage - 1) * c.Limit
@@ -69,13 +69,13 @@ func doPaginate(c *Chapter) (int, int) {
 
 // Ceils the last page and generates
 // a integer number.
-func ceilLastPage(c *Chapter) {
+func (c *Chapter) ceilLastPage() {
 	c.LastPage = int(math.Ceil(float64(c.TotalPages) / float64(c.Limit)))
 }
 
 // Creates next and previous links using
 // the given base URL.
-func createLinks(c *Chapter) {
+func (c *Chapter) createLinks() {
 	if c.NewPage <= c.LastPage {
 		c.NextURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.CurrentPage+1)
 	}
@@ -86,7 +86,7 @@ func createLinks(c *Chapter) {
 
 // Sets the defaults values for current page
 // and limit if none of them were provided.
-func setDefaults(c *Chapter) {
+func (c *Chapter) setDefaults() {
 	if cp := c.CurrentPage == 0; cp {
 		c.CurrentPage = 1
 	}

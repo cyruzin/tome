@@ -26,7 +26,7 @@ func main() {
 		TotalPages:  3000, // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
-	pg, err := tome.Paginate(chapter) // Paginating the results.
+	pg, err := chapter.Paginate() // Paginating the results.
 	if err != nil {
 		log.Println(err)
 	}
