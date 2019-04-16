@@ -16,7 +16,7 @@ To get started, import the `tome` package and initiate the pagination:
 ```go
 import "github.com/cyruzin/tome"
 
-// Creating a tome chapter.
+// Creating a tome chapter with links.
 chapter := &tome.Chapter{
 	Data: struct {
 		Title string `json:"title"`
@@ -26,6 +26,7 @@ chapter := &tome.Chapter{
 		"Lorem Ipsum is simply dummy text of the printing and...",
 	}, // Data that you want to return along with pagination settings.
 	BaseURL:      "http://yourapi.com/v1/posts",
+	Links: 		  true, // Create links.
 	Limit:        10,  // Limit per page.
 	NewPage:      2,   // Page that you captured in params.
 	CurrentPage:  1,   // Inicial Page.
@@ -61,6 +62,14 @@ Output:
 
 ## Performance
 
+Without links:
+
 | Iterations | ns/op | B/op | allocs/op |
-| :---       | :---  | :--- | :---      |
+|------------|-------|------|-----------|
+| 300000000  | 5.20  | 0    | 0         |
+
+With links:
+
+| Iterations | ns/op | B/op | allocs/op |
+|------------|-------|------|-----------|
 | 1000000    | 120   | 96   | 2         |

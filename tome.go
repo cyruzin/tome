@@ -16,9 +16,11 @@ type Chapter struct {
 	// API base URL.
 	BaseURL string `json:"base_url"`
 	// The next URL link with page number.
-	NextURL string `json:"next_url"`
+	NextURL string `json:"next_url,omitempty"`
 	// The previous URL link with page number.
-	PreviousURL string `json:"prev_url"`
+	PreviousURL string `json:"prev_url,omitempty"`
+	// Whether to create links or not.
+	Links bool `json:"-"`
 	// The inicial offset position.
 	offset int
 	// Limit per page.
@@ -42,7 +44,10 @@ func (c *Chapter) Paginate() error {
 	c.setDefaults()  // Checking if need defaults
 	c.ceilLastPage() // Ceiling the last page.
 	c.doPaginate()   // Pagination calculation.
-	c.createLinks()  // Creating links.
+
+	if c.Links {
+		c.createLinks() // Creating links.
+	}
 
 	return nil
 }
