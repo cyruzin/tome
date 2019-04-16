@@ -38,32 +38,50 @@ type Chapter struct {
 // Paginate handles the pagination calculation.
 func (c *Chapter) Paginate() error {
 	if c.BaseURL == "" {
-		return errors.New("Base URL is missing")
+		return errors.New("BaseURL value is missing")
 	}
 
-	c.setDefaults()  // Checking if need defaults
-	c.ceilLastPage() // Ceiling the last page.
-	c.doPaginate()   // Pagination calculation.
+	c.setDefaults() // Checking if need defaults.
 
-	if c.Links {
-		c.createLinks() // Creating links.
+	err := c.ceilLastPage() // Ceiling the last page.
+	if err != nil {
+		return err
+	}
+
+	err = c.doPaginate() // Pagination calculation.
+	if err != nil {
+		return err
+	}
+
+	if c.Links { // Checking if links are necessary.
+		c.createLinks()
 	}
 
 	return nil
 }
 
 // Calculates the offset and the limit.
-func (c *Chapter) doPaginate() {
+func (c *Chapter) doPaginate() error {
+	if c.NewPage == 0 {
+		return errors.New("NewPage value is missing")
+	}
+
 	if c.NewPage > c.CurrentPage {
 		c.CurrentPage = c.NewPage
 		c.offset = (c.CurrentPage - 1) * c.Limit
 	}
+
+	return nil
 }
 
 // Ceils the last page and generates
 // a integer number.
-func (c *Chapter) ceilLastPage() {
+func (c *Chapter) ceilLastPage() error {
+	if c.TotalResults == 0 {
+		return errors.New("TotalResults value is missing")
+	}
 	c.LastPage = int(math.Ceil(float64(c.TotalResults) / float64(c.Limit)))
+	return nil
 }
 
 // Creates next and previous links using

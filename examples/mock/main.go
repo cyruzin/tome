@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	// Creating a tome chapter.
+	// Creating a tome chapter with links.
 	chapter := &tome.Chapter{
 		Data: struct {
 			Title string `json:"title"`
@@ -19,20 +19,19 @@ func main() {
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		}, // Data that you want to return along with pagination settings.
 		BaseURL:      "http://yourapi.com/v1/posts",
-		Limit:        10,  // Limit per page.
+		Links:        true,
 		NewPage:      2,   // Page that you captured in params.
-		CurrentPage:  1,   // Inicial Page.
 		TotalResults: 300, // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
 	err := chapter.Paginate() // Paginating the results.
 	if err != nil {
-		log.Println(err)
+		log.Panic(err)
 	}
 
 	data, err := json.MarshalIndent(chapter, "", " ")
 	if err != nil {
-		log.Println(err)
+		log.Panic(err)
 	}
 	fmt.Println(string(data)) // Returning JSON.
 }

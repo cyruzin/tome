@@ -4,6 +4,13 @@ import (
 	"testing"
 )
 
+const (
+	baseURL           = "http://yourapi.com/v1/posts"
+	baseURLError      = "BaseURL value is missing"
+	newPageError      = "NewPage value is missing"
+	totalResultsError = "TotalResults value is missing"
+)
+
 func TestPaginate(t *testing.T) {
 	chapter := &Chapter{
 		Data: struct {
@@ -13,7 +20,7 @@ func TestPaginate(t *testing.T) {
 			"What is Lorem Ipsum?",
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		},
-		BaseURL:      "http://yourapi.com/v1/posts",
+		BaseURL:      baseURL,
 		Limit:        10,
 		NewPage:      10,
 		CurrentPage:  1,
@@ -39,7 +46,7 @@ func TestPaginateWithLinks(t *testing.T) {
 			"What is Lorem Ipsum?",
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		},
-		BaseURL:      "http://yourapi.com/v1/posts",
+		BaseURL:      baseURL,
 		Links:        true,
 		Limit:        10,
 		NewPage:      10,
@@ -74,8 +81,8 @@ func TestEmptyBaseURL(t *testing.T) {
 	}
 
 	err := chapter.Paginate()
-	if err.Error() != "Base URL is missing" {
-		t.Errorf("Expecting: %s, got: %s", "Base URL is missing", err.Error())
+	if err.Error() != baseURLError {
+		t.Errorf("Expecting: %s, got: %s", baseURLError, err.Error())
 	}
 }
 
@@ -88,7 +95,8 @@ func TestDefaultValues(t *testing.T) {
 			"What is Lorem Ipsum?",
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		},
-		BaseURL:      "http://yourapi.com/v1/posts",
+		NewPage:      2,
+		BaseURL:      baseURL,
 		TotalResults: 3000,
 	}
 
@@ -97,12 +105,52 @@ func TestDefaultValues(t *testing.T) {
 		t.Error(err)
 	}
 
-	if chapter.CurrentPage != 1 {
-		t.Errorf("Expecting: %d, got: %d", 1, chapter.CurrentPage)
+	if chapter.CurrentPage != 2 {
+		t.Errorf("Expecting: %d, got: %d", 2, chapter.CurrentPage)
 	}
 
 	if chapter.Limit != 10 {
 		t.Errorf("Expecting: %d, got: %d", 10, chapter.Limit)
+	}
+}
+
+func TestEmptyNewPage(t *testing.T) {
+	chapter := &Chapter{
+		Data: struct {
+			Title string `json:"title"`
+			Body  string `json:"body"`
+		}{
+			"What is Lorem Ipsum?",
+			"Lorem Ipsum is simply dummy text of the printing and...",
+		},
+		BaseURL:      baseURL,
+		TotalResults: 3000,
+	}
+
+	err := chapter.Paginate()
+
+	if err.Error() != newPageError {
+		t.Errorf("Expecting: %s, got: %s", newPageError, err.Error())
+	}
+}
+
+func TestEmptyTotalResults(t *testing.T) {
+	chapter := &Chapter{
+		Data: struct {
+			Title string `json:"title"`
+			Body  string `json:"body"`
+		}{
+			"What is Lorem Ipsum?",
+			"Lorem Ipsum is simply dummy text of the printing and...",
+		},
+		NewPage: 2,
+		BaseURL: baseURL,
+	}
+
+	err := chapter.Paginate()
+
+	if err.Error() != totalResultsError {
+		t.Errorf("Expecting: %s, got: %s", totalResultsError, err.Error())
 	}
 }
 
@@ -115,7 +163,7 @@ func BenchmarkPaginate(b *testing.B) {
 			"What is Lorem Ipsum?",
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		},
-		BaseURL:      "http://yourapi.com/v1/posts",
+		BaseURL:      baseURL,
 		Limit:        10,
 		NewPage:      10,
 		CurrentPage:  1,
@@ -142,7 +190,7 @@ func BenchmarkPaginateWithLinks(b *testing.B) {
 			"What is Lorem Ipsum?",
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		},
-		BaseURL:      "http://yourapi.com/v1/posts",
+		BaseURL:      baseURL,
 		Links:        true,
 		Limit:        10,
 		NewPage:      10,
