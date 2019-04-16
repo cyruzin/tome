@@ -56,7 +56,7 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 	// Mocking results with pagination.
 	res := &Result{Data: database, Chapter: chapter}
     
-	w.WriteHeader(http.StatusOK)  // Setting status 200 (Inside your handler).
+	w.WriteHeader(http.StatusOK)  // Setting status 200.
 	json.NewEncoder(w).Encode(res) // Returning JSON.
 }
 ```
