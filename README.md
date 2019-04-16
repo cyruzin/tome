@@ -32,13 +32,13 @@ chapter := &tome.Chapter{
 	TotalResults: 300, // Total of pages, this usually comes from a SQL query total rows result.
 }
 
-pg, err := chapter.Paginate() // Paginating the results.
+err := chapter.Paginate() // Paginating the results.
  if err != nil {
 	log.Println(err)
  }
     
 w.WriteHeader(http.StatusOK)  // Setting status 200 (Inside your handler).
-json.NewEncoder(w).Encode(&k) // Returning JSON.
+json.NewEncoder(w).Encode(chapter) // Returning JSON.
 ```
 
 Output: 
