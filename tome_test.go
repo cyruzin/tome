@@ -20,13 +20,13 @@ func TestPaginate(t *testing.T) {
 		TotalResults: 3000,                          // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
-	result, err := chapter.Paginate()
+	err := chapter.Paginate()
 	if err != nil {
 		t.Error(err)
 	}
 
-	if result.CurrentPage != 10 {
-		t.Errorf("Expecting: %d, got: %d", 10, result.CurrentPage)
+	if chapter.CurrentPage != 10 {
+		t.Errorf("Expecting: %d, got: %d", 10, chapter.CurrentPage)
 	}
 }
 
@@ -46,7 +46,7 @@ func TestEmptyBaseURL(t *testing.T) {
 		TotalResults: 3000, // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
-	_, err := chapter.Paginate()
+	err := chapter.Paginate()
 	if err.Error() != "Base URL is missing" {
 		t.Errorf("Expecting: %s, got: %s", "Base URL is missing", err.Error())
 	}
@@ -65,17 +65,17 @@ func TestDefaultValues(t *testing.T) {
 		TotalResults: 3000,                          // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
-	result, err := chapter.Paginate()
+	err := chapter.Paginate()
 	if err != nil {
 		t.Error(err)
 	}
 
-	if result.CurrentPage != 1 {
-		t.Errorf("Expecting: %d, got: %d", 1, result.CurrentPage)
+	if chapter.CurrentPage != 1 {
+		t.Errorf("Expecting: %d, got: %d", 1, chapter.CurrentPage)
 	}
 
-	if result.Limit != 10 {
-		t.Errorf("Expecting: %d, got: %d", 10, result.Limit)
+	if chapter.Limit != 10 {
+		t.Errorf("Expecting: %d, got: %d", 10, chapter.Limit)
 	}
 }
 
@@ -95,7 +95,7 @@ func BenchmarkPaginate(b *testing.B) {
 			CurrentPage:  1,                             // Inicial Page.
 			TotalResults: 3000,                          // Total of pages, this usually comes from a SQL query total rows result.
 		}
-		_, err := chapter.Paginate()
+		err := chapter.Paginate()
 		if err != nil {
 			b.Error(err)
 		}

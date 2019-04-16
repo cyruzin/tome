@@ -25,12 +25,12 @@ func main() {
 		TotalResults: 300, // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
-	pg, err := chapter.Paginate() // Paginating the results.
+	err := chapter.Paginate() // Paginating the results.
 	if err != nil {
 		log.Println(err)
 	}
 
-	data, err := json.MarshalIndent(pg, "", " ")
+	data, err := json.MarshalIndent(chapter, "", " ")
 	if err != nil {
 		log.Println(err)
 	}
