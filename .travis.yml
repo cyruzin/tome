@@ -1,12 +1,18 @@
+language: go
+
 go:
   - 1.12.x
 
 git:
   depth: 1
 
+before_install:
+  - go get github.com/mattn/goveralls
+
 script:
-  - go get -v -t -d ./... 
-  - go test -v -bench ./...
+  - $GOPATH/bin/goveralls -service=travis-ci
+ #  - go get -v -t -d ./...
+ # - go test -v -bench ./...
 
 notifications:
   email: false

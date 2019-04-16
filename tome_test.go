@@ -13,11 +13,11 @@ func TestPaginate(t *testing.T) {
 			"What is Lorem Ipsum?",
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		}, // Data that you want to return along with pagination settings.
-		BaseURL:     "http://yourapi.com/v1/posts", // End-point base URL.
-		Limit:       10,                            // Limit per page.
-		NewPage:     10,                            // Page that you captured in params.
-		CurrentPage: 1,                             // Inicial Page.
-		TotalResults:  3000,                          // Total of pages, this usually comes from a SQL query total rows result.
+		BaseURL:      "http://yourapi.com/v1/posts", // End-point base URL.
+		Limit:        10,                            // Limit per page.
+		NewPage:      10,                            // Page that you captured in params.
+		CurrentPage:  1,                             // Inicial Page.
+		TotalResults: 3000,                          // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
 	result, err := chapter.Paginate()
@@ -40,15 +40,16 @@ func BenchmarkPaginate(b *testing.B) {
 				"What is Lorem Ipsum?",
 				"Lorem Ipsum is simply dummy text of the printing and...",
 			}, // Data that you want to return along with pagination settings.
-			BaseURL:     "http://yourapi.com/v1/posts", // End-point base URL.
-			Limit:       10,                            // Limit per page.
-			NewPage:     10,                            // Page that you captured in params.
-			CurrentPage: 1,                             // Inicial Page.
-			TotalResults:  3000,                          // Total of pages, this usually comes from a SQL query total rows result.
+			BaseURL:      "http://yourapi.com/v1/posts", // End-point base URL.
+			Limit:        10,                            // Limit per page.
+			NewPage:      10,                            // Page that you captured in params.
+			CurrentPage:  1,                             // Inicial Page.
+			TotalResults: 3000,                          // Total of pages, this usually comes from a SQL query total rows result.
 		}
 		_, err := chapter.Paginate()
 		if err != nil {
 			b.Error(err)
 		}
+		b.ReportAllocs()
 	}
 }
