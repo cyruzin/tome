@@ -5,8 +5,8 @@ package tome
 
 import (
 	"errors"
-	"fmt"
 	"math"
+	"strconv"
 )
 
 // Chapter type is a struct for pagination results.
@@ -15,14 +15,10 @@ type Chapter struct {
 	Data interface{} `json:"data"`
 	// API base URL.
 	BaseURL string `json:"base_url"`
-	// The first URL link with page number.
-	FirstURL string `json:"first_url"`
 	// The next URL link with page number.
 	NextURL string `json:"next_url"`
 	// The previous URL link with page number.
 	PreviousURL string `json:"prev_url"`
-	// The last URL link with page number.
-	LastURL string `json:"last_url"`
 	// The inicial offset position.
 	offset int
 	// Limit per page.
@@ -68,17 +64,13 @@ func (c *Chapter) ceilLastPage() {
 // Creates next and previous links using
 // the given base URL.
 func (c *Chapter) createLinks() {
-	c.FirstURL = fmt.Sprintf("%s?page=%d", c.BaseURL, 1)
-
 	if c.CurrentPage < c.LastPage {
-		c.NextURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.CurrentPage+1)
+		c.NextURL = c.BaseURL + "?page=" + strconv.Itoa(c.CurrentPage+1)
 	}
 
 	if c.LastPage > c.CurrentPage {
-		c.PreviousURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.CurrentPage-1)
+		c.PreviousURL = c.BaseURL + "?page=" + strconv.Itoa(c.CurrentPage-1)
 	}
-
-	c.LastURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.LastPage)
 }
 
 // Sets the defaults values for current page

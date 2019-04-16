@@ -50,10 +50,8 @@ Output:
   "body": "Lorem Ipsum is simply dummy text of the printing and..."
  },
  "base_url": "http://yourapi.com/v1/posts",
- "first_url": "http://yourapi.com/v1/posts?page=1",
  "next_url": "http://yourapi.com/v1/posts?page=3",
  "prev_url": "http://yourapi.com/v1/posts?page=1",
- "last_url": "http://yourapi.com/v1/posts?page=30",
  "per_page": 10,
  "current_page": 2,
  "last_page": 30,
@@ -65,4 +63,4 @@ Output:
 
 | Iterations | ns/op | B/op | allocs/op |
 | :---       | :---  | :--- | :---      |
-| 1000000    | 1170  | 312  | 12        |
+| 1000000    | 120   | 96   | 2         |
