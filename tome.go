@@ -24,7 +24,7 @@ type Chapter struct {
 	// The last URL link with page number.
 	LastURL string `json:"last_url"`
 	// The inicial offset position.
-	Offset int `json:"-"`
+	offset int
 	// Limit per page.
 	Limit int `json:"per_page"`
 	// The page number captured on the request params.
@@ -33,8 +33,8 @@ type Chapter struct {
 	CurrentPage int `json:"current_page"`
 	// The last page of the tome.
 	LastPage int `json:"last_page"`
-	// Total of pages, this usually comes from a SQL query total rows result.
-	TotalPages int `json:"total"`
+	// Total of results, this usually comes from a SQL query total rows result.
+	TotalResults int `json:"total_results"`
 }
 
 // Paginate handles the pagination calculation.
@@ -60,7 +60,7 @@ func (c *Chapter) Paginate() (*Chapter, error) {
 		c.NewPage,
 		c.CurrentPage,
 		c.LastPage,
-		c.TotalPages,
+		c.TotalResults,
 	}, nil
 }
 
@@ -68,25 +68,25 @@ func (c *Chapter) Paginate() (*Chapter, error) {
 func (c *Chapter) doPaginate() (int, int) {
 	if c.NewPage > c.CurrentPage {
 		c.CurrentPage = c.NewPage
-		c.Offset = (c.CurrentPage - 1) * c.Limit
+		c.offset = (c.CurrentPage - 1) * c.Limit
 	}
-	return c.Offset, c.Limit
+	return c.offset, c.Limit
 }
 
 // Ceils the last page and generates
 // a integer number.
 func (c *Chapter) ceilLastPage() {
-	c.LastPage = int(math.Ceil(float64(c.TotalPages) / float64(c.Limit)))
+	c.LastPage = int(math.Ceil(float64(c.TotalResults) / float64(c.Limit)))
 }
 
 // Creates next and previous links using
 // the given base URL.
 func (c *Chapter) createLinks() {
 	c.FirstURL = fmt.Sprintf("%s?page=%d", c.BaseURL, 1)
-	if c.NewPage < c.LastPage {
+	if c.CurrentPage < c.LastPage {
 		c.NextURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.CurrentPage+1)
 	}
-	if c.LastPage > c.NewPage {
+	if c.LastPage > c.CurrentPage {
 		c.PreviousURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.CurrentPage-1)
 	}
 	c.LastURL = fmt.Sprintf("%s?page=%d", c.BaseURL, c.LastPage)

@@ -18,12 +18,11 @@ func main() {
 			"What is Lorem Ipsum?",
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		}, // Data that you want to return along with pagination settings.
-		BaseURL:     "http://yourapi.com/v1/posts",
-		Offset:      0,    // Inicial offset.
-		Limit:       10,   // Limit per page.
-		NewPage:     2,    // Page that you captured in params.
-		CurrentPage: 1,    // Inicial Page.
-		TotalPages:  3000, // Total of pages, this usually comes from a SQL query total rows result.
+		BaseURL:      "http://yourapi.com/v1/posts",
+		Limit:        10,  // Limit per page.
+		NewPage:      2,   // Page that you captured in params.
+		CurrentPage:  1,   // Inicial Page.
+		TotalResults: 300, // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
 	pg, err := chapter.Paginate() // Paginating the results.

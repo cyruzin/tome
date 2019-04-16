@@ -17,7 +17,7 @@ func TestPaginate(t *testing.T) {
 		Limit:       10,                            // Limit per page.
 		NewPage:     10,                            // Page that you captured in params.
 		CurrentPage: 1,                             // Inicial Page.
-		TotalPages:  3000,                          // Total of pages, this usually comes from a SQL query total rows result.
+		TotalResults:  3000,                          // Total of pages, this usually comes from a SQL query total rows result.
 	}
 
 	result, err := chapter.Paginate()
@@ -44,7 +44,7 @@ func BenchmarkPaginate(b *testing.B) {
 			Limit:       10,                            // Limit per page.
 			NewPage:     10,                            // Page that you captured in params.
 			CurrentPage: 1,                             // Inicial Page.
-			TotalPages:  3000,                          // Total of pages, this usually comes from a SQL query total rows result.
+			TotalResults:  3000,                          // Total of pages, this usually comes from a SQL query total rows result.
 		}
 		_, err := chapter.Paginate()
 		if err != nil {
