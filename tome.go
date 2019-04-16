@@ -20,7 +20,7 @@ type Chapter struct {
 	// Whether to create links or not.
 	Links bool `json:"-"`
 	// The inicial offset position.
-	Offset int
+	Offset int `json:"-"`
 	// Limit per page.
 	Limit int `json:"per_page"`
 	// The page number captured on the request params.
