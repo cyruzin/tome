@@ -60,3 +60,9 @@ Output:
  "total_results": 300
 }
 ```
+
+## Performance
+
+| Iterations | ns/op | B/op | allocs/op |
+| :---       | :---  | :--- | :---      |
+| 1000000    | 1170  | 312  | 12        |
