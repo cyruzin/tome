@@ -27,9 +27,7 @@ chapter := &tome.Chapter{
 	}, // Data that you want to return along with pagination settings.
 	BaseURL:      "http://yourapi.com/v1/posts",
 	Links: 		  true, // Create links.
-	Limit:        10,  // Limit per page.
 	NewPage:      2,   // Page that you captured in params.
-	CurrentPage:  1,   // Inicial Page.
 	TotalResults: 300, // Total of pages, this usually comes from a SQL query total rows result.
 }
 

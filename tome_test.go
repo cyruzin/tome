@@ -9,6 +9,7 @@ const (
 	baseURLError      = "BaseURL value is missing"
 	newPageError      = "NewPage value is missing"
 	totalResultsError = "TotalResults value is missing"
+	linksFalseError   = "Links value is false, set to true"
 )
 
 func TestPaginate(t *testing.T) {
@@ -20,7 +21,6 @@ func TestPaginate(t *testing.T) {
 			"What is Lorem Ipsum?",
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		},
-		BaseURL:      baseURL,
 		Limit:        10,
 		NewPage:      10,
 		CurrentPage:  1,
@@ -74,6 +74,7 @@ func TestEmptyBaseURL(t *testing.T) {
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		},
 		BaseURL:      "",
+		Links:        true,
 		Limit:        10,
 		NewPage:      10,
 		CurrentPage:  1,
@@ -96,7 +97,6 @@ func TestDefaultValues(t *testing.T) {
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		},
 		NewPage:      2,
-		BaseURL:      baseURL,
 		TotalResults: 3000,
 	}
 
@@ -154,6 +154,27 @@ func TestEmptyTotalResults(t *testing.T) {
 	}
 }
 
+func TestEmptyLinksWithBaseURL(t *testing.T) {
+	chapter := &Chapter{
+		Data: struct {
+			Title string `json:"title"`
+			Body  string `json:"body"`
+		}{
+			"What is Lorem Ipsum?",
+			"Lorem Ipsum is simply dummy text of the printing and...",
+		},
+		NewPage:      2,
+		BaseURL:      baseURL,
+		TotalResults: 300,
+	}
+
+	err := chapter.Paginate()
+
+	if err.Error() != linksFalseError {
+		t.Errorf("Expecting: %s, got: %s", linksFalseError, err.Error())
+	}
+}
+
 func BenchmarkPaginate(b *testing.B) {
 	chapter := &Chapter{
 		Data: struct {
@@ -163,7 +184,6 @@ func BenchmarkPaginate(b *testing.B) {
 			"What is Lorem Ipsum?",
 			"Lorem Ipsum is simply dummy text of the printing and...",
 		},
-		BaseURL:      baseURL,
 		Limit:        10,
 		NewPage:      10,
 		CurrentPage:  1,

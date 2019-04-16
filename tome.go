@@ -14,7 +14,7 @@ type Chapter struct {
 	// Data that you want to return along with pagination settings.
 	Data interface{} `json:"data"`
 	// API base URL.
-	BaseURL string `json:"base_url"`
+	BaseURL string `json:"base_url,omitempty"`
 	// The next URL link with page number.
 	NextURL string `json:"next_url,omitempty"`
 	// The previous URL link with page number.
@@ -37,10 +37,6 @@ type Chapter struct {
 
 // Paginate handles the pagination calculation.
 func (c *Chapter) Paginate() error {
-	if c.BaseURL == "" {
-		return errors.New("BaseURL value is missing")
-	}
-
 	c.setDefaults() // Checking if need defaults.
 
 	err := c.ceilLastPage() // Ceiling the last page.
@@ -53,10 +49,10 @@ func (c *Chapter) Paginate() error {
 		return err
 	}
 
-	if c.Links { // Checking if links are necessary.
-		c.createLinks()
+	err = c.checkLinks() // Checking if links are necessary.
+	if err != nil {
+		return err
 	}
-
 	return nil
 }
 
@@ -80,13 +76,32 @@ func (c *Chapter) ceilLastPage() error {
 	if c.TotalResults == 0 {
 		return errors.New("TotalResults value is missing")
 	}
+
 	c.LastPage = int(math.Ceil(float64(c.TotalResults) / float64(c.Limit)))
+	return nil
+}
+
+// Handles links validations.
+func (c *Chapter) checkLinks() error {
+	if !c.Links && c.BaseURL != "" {
+		return errors.New("Links value is false, set to true")
+	}
+
+	if c.Links {
+		if err := c.createLinks(); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
 // Creates next and previous links using
 // the given base URL.
-func (c *Chapter) createLinks() {
+func (c *Chapter) createLinks() error {
+	if c.BaseURL == "" {
+		return errors.New("BaseURL value is missing")
+	}
+
 	if c.CurrentPage < c.LastPage {
 		c.NextURL = c.BaseURL + "?page=" + strconv.Itoa(c.CurrentPage+1)
 	}
@@ -94,6 +109,8 @@ func (c *Chapter) createLinks() {
 	if c.LastPage > c.CurrentPage {
 		c.PreviousURL = c.BaseURL + "?page=" + strconv.Itoa(c.CurrentPage-1)
 	}
+
+	return nil
 }
 
 // Sets the defaults values for current page
