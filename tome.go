@@ -11,8 +11,6 @@ import (
 
 // Chapter type is a struct for pagination results.
 type Chapter struct {
-	// Data that you want to return along with pagination settings.
-	Data interface{} `json:"data"`
 	// API base URL.
 	BaseURL string `json:"base_url,omitempty"`
 	// The next URL link with page number.
@@ -22,7 +20,7 @@ type Chapter struct {
 	// Whether to create links or not.
 	Links bool `json:"-"`
 	// The inicial offset position.
-	offset int
+	Offset int
 	// Limit per page.
 	Limit int `json:"per_page"`
 	// The page number captured on the request params.
@@ -64,7 +62,7 @@ func (c *Chapter) doPaginate() error {
 
 	if c.NewPage > c.CurrentPage {
 		c.CurrentPage = c.NewPage
-		c.offset = (c.CurrentPage - 1) * c.Limit
+		c.Offset = (c.CurrentPage - 1) * c.Limit
 	}
 
 	return nil

@@ -14,13 +14,6 @@ const (
 
 func TestPaginate(t *testing.T) {
 	chapter := &Chapter{
-		Data: struct {
-			Title string `json:"title"`
-			Body  string `json:"body"`
-		}{
-			"What is Lorem Ipsum?",
-			"Lorem Ipsum is simply dummy text of the printing and...",
-		},
 		Limit:        10,
 		NewPage:      10,
 		CurrentPage:  1,
@@ -39,13 +32,6 @@ func TestPaginate(t *testing.T) {
 
 func TestPaginateWithLinks(t *testing.T) {
 	chapter := &Chapter{
-		Data: struct {
-			Title string `json:"title"`
-			Body  string `json:"body"`
-		}{
-			"What is Lorem Ipsum?",
-			"Lorem Ipsum is simply dummy text of the printing and...",
-		},
 		BaseURL:      baseURL,
 		Links:        true,
 		Limit:        10,
@@ -66,13 +52,6 @@ func TestPaginateWithLinks(t *testing.T) {
 
 func TestEmptyBaseURL(t *testing.T) {
 	chapter := &Chapter{
-		Data: struct {
-			Title string `json:"title"`
-			Body  string `json:"body"`
-		}{
-			"What is Lorem Ipsum?",
-			"Lorem Ipsum is simply dummy text of the printing and...",
-		},
 		BaseURL:      "",
 		Links:        true,
 		Limit:        10,
@@ -89,13 +68,6 @@ func TestEmptyBaseURL(t *testing.T) {
 
 func TestDefaultValues(t *testing.T) {
 	chapter := &Chapter{
-		Data: struct {
-			Title string `json:"title"`
-			Body  string `json:"body"`
-		}{
-			"What is Lorem Ipsum?",
-			"Lorem Ipsum is simply dummy text of the printing and...",
-		},
 		NewPage:      2,
 		TotalResults: 3000,
 	}
@@ -116,13 +88,6 @@ func TestDefaultValues(t *testing.T) {
 
 func TestEmptyNewPage(t *testing.T) {
 	chapter := &Chapter{
-		Data: struct {
-			Title string `json:"title"`
-			Body  string `json:"body"`
-		}{
-			"What is Lorem Ipsum?",
-			"Lorem Ipsum is simply dummy text of the printing and...",
-		},
 		BaseURL:      baseURL,
 		TotalResults: 3000,
 	}
@@ -136,13 +101,6 @@ func TestEmptyNewPage(t *testing.T) {
 
 func TestEmptyTotalResults(t *testing.T) {
 	chapter := &Chapter{
-		Data: struct {
-			Title string `json:"title"`
-			Body  string `json:"body"`
-		}{
-			"What is Lorem Ipsum?",
-			"Lorem Ipsum is simply dummy text of the printing and...",
-		},
 		NewPage: 2,
 		BaseURL: baseURL,
 	}
@@ -156,13 +114,6 @@ func TestEmptyTotalResults(t *testing.T) {
 
 func TestEmptyLinksWithBaseURL(t *testing.T) {
 	chapter := &Chapter{
-		Data: struct {
-			Title string `json:"title"`
-			Body  string `json:"body"`
-		}{
-			"What is Lorem Ipsum?",
-			"Lorem Ipsum is simply dummy text of the printing and...",
-		},
 		NewPage:      2,
 		BaseURL:      baseURL,
 		TotalResults: 300,
@@ -177,13 +128,6 @@ func TestEmptyLinksWithBaseURL(t *testing.T) {
 
 func BenchmarkPaginate(b *testing.B) {
 	chapter := &Chapter{
-		Data: struct {
-			Title string `json:"title"`
-			Body  string `json:"body"`
-		}{
-			"What is Lorem Ipsum?",
-			"Lorem Ipsum is simply dummy text of the printing and...",
-		},
 		Limit:        10,
 		NewPage:      10,
 		CurrentPage:  1,
@@ -203,13 +147,6 @@ func BenchmarkPaginate(b *testing.B) {
 
 func BenchmarkPaginateWithLinks(b *testing.B) {
 	chapter := &Chapter{
-		Data: struct {
-			Title string `json:"title"`
-			Body  string `json:"body"`
-		}{
-			"What is Lorem Ipsum?",
-			"Lorem Ipsum is simply dummy text of the printing and...",
-		},
 		BaseURL:      baseURL,
 		Links:        true,
 		Limit:        10,
