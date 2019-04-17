@@ -52,6 +52,9 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 
 	// Here you pass the offset and limit.
 	database, err := model.GetPosts(chapter.Offset, chapter.Limit)
+	if err != nil {
+		log.Panic(err)
+	}
 
 	// Mocking results with pagination.
 	res := &Result{Data: database, Chapter: chapter}
