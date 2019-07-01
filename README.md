@@ -1,4 +1,4 @@
-# Tome
+<p align="center"><img src="./img/logo.png"></p>
 
 [![Build Status](https://travis-ci.org/cyruzin/tome.svg?branch=master)](https://travis-ci.org/cyruzin/tome) [![Coverage Status](https://coveralls.io/repos/github/cyruzin/tome/badge.svg?branch=master)](https://coveralls.io/github/cyruzin/tome?branch=master) [![GoDoc](https://godoc.org/github.com/cyruzin/tome?status.svg)](https://godoc.org/github.com/cyruzin/tome) [![Go Report Card](https://goreportcard.com/badge/github.com/cyruzin/tome)](https://goreportcard.com/report/github.com/cyruzin/tome) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
