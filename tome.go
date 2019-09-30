@@ -27,12 +27,13 @@ type Chapter struct {
 	// The inicial offset position.
 	Offset int `json:"-"`
 	// The limit per page.
-	// If none is provided, the limited will be setted to 10.
+	// If none is provided, the limit will be setted to 10.
 	Limit int `json:"per_page"`
 	// The new page number captured on the request params.
 	// Will be omitted from JSON, since there is no need for it.
 	NewPage int `json:"-"`
 	// The current page of the tome.
+	// If none is provided, the current page will be setted to 1.
 	CurrentPage int `json:"current_page"`
 	// The last page of the tome.
 	LastPage int `json:"last_page"`
