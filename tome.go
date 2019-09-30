@@ -9,48 +9,54 @@ import (
 	"strconv"
 )
 
-// Chapter type is a struct for pagination results.
+// Chapter handles pagination results.
 type Chapter struct {
-	// API base URL.
+	// The base URL for the endpoint.
+	// It is only necessary when using links.
+	// Will be omitted from JSON when links are set to false.
 	BaseURL string `json:"base_url,omitempty"`
-	// The next URL link with page number.
+	// The next URL string.
+	// Will be omitted from JSON when links are set to false.
 	NextURL string `json:"next_url,omitempty"`
-	// The previous URL link with page number.
+	// The previous URL string.
+	// Will be omitted from JSON when links are set to false.
 	PreviousURL string `json:"prev_url,omitempty"`
 	// Whether to create links or not.
+	// Pagination without links is faster.
 	Links bool `json:"-"`
 	// The inicial offset position.
 	Offset int `json:"-"`
-	// Limit per page.
+	// The limit per page.
+	// If none is provided, the limited will be setted to 10.
 	Limit int `json:"per_page"`
-	// The page number captured on the request params.
+	// The new page number captured on the request params.
+	// Will be omitted from JSON, since there is no need for it.
 	NewPage int `json:"-"`
-	// Current page of the tome.
+	// The current page of the tome.
 	CurrentPage int `json:"current_page"`
 	// The last page of the tome.
 	LastPage int `json:"last_page"`
-	// Total of results, this usually comes from a SQL query total rows result.
+	// The total results, this usually comes from
+	// a database query.
 	TotalResults int `json:"total_results"`
 }
 
 // Paginate handles the pagination calculation.
 func (c *Chapter) Paginate() error {
-	c.setDefaults() // Checking if need defaults.
+	c.setDefaults()
 
-	err := c.ceilLastPage() // Ceiling the last page.
-	if err != nil {
+	if err := c.ceilLastPage(); err != nil {
 		return err
 	}
 
-	err = c.doPaginate() // Pagination calculation.
-	if err != nil {
+	if err := c.doPaginate(); err != nil {
 		return err
 	}
 
-	err = c.checkLinks() // Checking if links are necessary.
-	if err != nil {
+	if err := c.checkLinks(); err != nil {
 		return err
 	}
+
 	return nil
 }
 
@@ -76,6 +82,7 @@ func (c *Chapter) ceilLastPage() error {
 	}
 
 	c.LastPage = int(math.Ceil(float64(c.TotalResults) / float64(c.Limit)))
+
 	return nil
 }
 
@@ -90,6 +97,7 @@ func (c *Chapter) checkLinks() error {
 			return err
 		}
 	}
+
 	return nil
 }
 
