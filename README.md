@@ -47,20 +47,24 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 
 	// Paginating the results.
 	if err := chapter.Paginate(); err != nil { 
-		log.Panic(err)
+		w.WriteHeader(http.StatusUnprocessableEntity)  // Setting status 422.
+	        json.NewEncoder(w).Encode(err) // Returning JSON with an error.
+		return
 	}
 
 	// Here you pass the offset and limit.
 	database, err := model.GetPosts(chapter.Offset, chapter.Limit)
 	if err != nil {
-		log.Panic(err)
+		w.WriteHeader(http.StatusUnprocessableEntity)  // Setting status 422.
+	        json.NewEncoder(w).Encode(err) // Returning JSON with an error.
+		return
 	}
 
 	// Mocking results with pagination.
 	res := &Result{Data: database, Chapter: chapter}
     
 	w.WriteHeader(http.StatusOK)  // Setting status 200.
-	json.NewEncoder(w).Encode(res) // Returning JSON.
+	json.NewEncoder(w).Encode(res) // Returning success JSON.
 }
 ```
 
